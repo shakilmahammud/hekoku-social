@@ -8,29 +8,27 @@ var mongodb = require("mongodb");
 var MongoClient = mongodb.MongoClient;
 var ObjectId = mongodb.ObjectId;
 
-var http = require("https").createServer(app);
+var http = require("http").createServer(app);
 var bcrypt = require("bcrypt");
 var fileSystem = require("fs");
-require('dotenv').config()
 
 var jwt = require("jsonwebtoken");
 var accessTokenSecret = "myAccessTokenSecret1234567890";
-
+require('dotenv').config()
 app.use("/public", express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
-
 var socketIO = require("socket.io")(http);
 var socketID = "";
 var users = [];
 
-var mainURL = 4000|| env.process.PORT;
+var mainURL = "http://localhost:4000"|| env.process.PORT;
 const uri = "mongodb+srv://test:testS@cluster0.0aziu.mongodb.net/demo?retryWrites=true&w=majority";
 socketIO.on("connection", function (socket) {
 	console.log("User connected", socket.id);
 	socketID = socket.id;
 });
 
-http.listen(mainURL || env.process.PORT, function () {
+http.listen(4000||env.process.PORT, function () {
 	console.log("Server started at " + mainURL);
 	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 	client.connect(error=>{
@@ -960,15 +958,15 @@ http.listen(mainURL || env.process.PORT, function () {
 		});
 
 		app.get("/inbox", function (request, result) {
-			
+			result.render("inbox");
 		});
 
 		app.get("/pages", function (request, result) {
-	
+			result.render("pages");
 		});
 
 		app.get("/groups", function (request, result) {
-			
+			result.render("groups");
 		});
 
 		app.get("/notifications", function (request, result) {

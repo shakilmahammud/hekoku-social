@@ -11,6 +11,7 @@ var ObjectId = mongodb.ObjectId;
 var http = require("http").createServer(app);
 var bcrypt = require("bcrypt");
 var fileSystem = require("fs");
+require('dotenv').config()
 
 var jwt = require("jsonwebtoken");
 var accessTokenSecret = "myAccessTokenSecret1234567890";
@@ -22,14 +23,14 @@ var socketIO = require("socket.io")(http);
 var socketID = "";
 var users = [];
 
-var mainURL = "http://localhost:4000";
+var mainURL = "http://localhost:4000"|| env.process.PORT;
 const uri = "mongodb+srv://test:testS@cluster0.0aziu.mongodb.net/demo?retryWrites=true&w=majority";
 socketIO.on("connection", function (socket) {
 	console.log("User connected", socket.id);
 	socketID = socket.id;
 });
 
-http.listen(4000, function () {
+http.listen(4000 || env.process.PORT, function () {
 	console.log("Server started at " + mainURL);
 	const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 	client.connect(error=>{
